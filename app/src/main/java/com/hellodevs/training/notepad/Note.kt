@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Note(var title: String = "",
-                var texte: String = "",
+                var text: String = "",
                 var filename: String = "") : Parcelable{
 
     constructor(parcel: Parcel) : this(
@@ -16,7 +16,7 @@ data class Note(var title: String = "",
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(title)
-        parcel.writeString(texte)
+        parcel.writeString(text)
         parcel.writeString(filename)
     }
 
