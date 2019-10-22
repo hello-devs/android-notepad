@@ -8,9 +8,9 @@ data class Note(var title: String = "",
                 var filename: String = "") : Parcelable{
 
     constructor(parcel: Parcel) : this(
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString()
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!
     ) {
     }
 
