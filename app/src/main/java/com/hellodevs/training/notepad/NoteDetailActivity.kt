@@ -1,5 +1,7 @@
 package com.hellodevs.training.notepad
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_note_detail.*
 class NoteDetailActivity : AppCompatActivity() {
 
     companion object{
+        const val REQUEST_EDIT_NOTE = 1
         const val EXTRA_NOTE = "note"
         const val EXTRA_NOTE_INDEX = "noteIndex"
     }
@@ -46,10 +49,22 @@ class NoteDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
+                saveNote()
                 true
             }
             else -> super.onOptionsItemSelected(item)
 
         }
+    }
+
+    private fun saveNote(){
+        note.title = titleView.text.toString()
+        note.text = textView.text.toString()
+
+        intent = Intent()
+        intent.putExtra(EXTRA_NOTE_INDEX, noteIndex)
+        intent.putExtra(EXTRA_NOTE, note)
+        setResult(Activity.RESULT_OK,  intent)
+        finish()
     }
 }

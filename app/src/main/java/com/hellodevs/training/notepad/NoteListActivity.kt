@@ -38,6 +38,15 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode != RESULT_OK || data == null){
+            return
+        }
+
+        when (requestCode){
+            NoteDetailActivity.REQUEST_EDIT_NOTE -> processEditNoteResult(data)
+        }
+    }
 
     fun showNoteDetail(noteIndex: Int){
 
@@ -47,7 +56,19 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, noteIndex)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
 
-        startActivity(intent)
+        startActivityForResult(intent, NoteDetailActivity.REQUEST_EDIT_NOTE)
+    }
+
+    private fun processEditNoteResult(data: Intent) {
+        val noteIndex = data.getIntExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, -1)
+        val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)
+
+        saveNote(note, noteIndex)
+    }
+
+    private fun saveNote(note: Note, noteIndex: Int){
+        notes[noteIndex] = note
+        adapter.notifyDataSetChanged()
     }
 
 
