@@ -22,6 +22,9 @@ class NoteDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_detail)
 
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         note = intent.getParcelableExtra(EXTRA_NOTE)!!
         noteIndex = intent.getIntExtra(EXTRA_NOTE_INDEX, -1)
 
