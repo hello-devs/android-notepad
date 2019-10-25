@@ -29,4 +29,5 @@
         android:hint="Contenu de la note"
         android:layout_below="@id/noteTitle"/>
 
+
 </RelativeLayout>

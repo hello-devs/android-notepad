@@ -19,6 +19,8 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         setSupportActionBar(toolbar)
 
+        create_note_fab.setOnClickListener (this)
+
         notes = mutableListOf<Note>()
 
         notes.add(Note("note 1", "ceci est la note numéro 1"))
@@ -35,6 +37,10 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View) {
         if(view.tag != null){
             showNoteDetail(view.tag as Int)
+        }else{
+            when (view.id){
+                R.id.create_note_fab -> createNewNote()
+            }
         }
     }
 
@@ -48,9 +54,13 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun createNewNote() {
+        showNoteDetail(-1)
+    }
+
     fun showNoteDetail(noteIndex: Int){
 
-        val note = notes[noteIndex]
+        val note = if(noteIndex < 0) Note() else notes[noteIndex]
 
         val intent = Intent(this, NoteDetailActivity::class.java)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, noteIndex)
@@ -67,7 +77,11 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun saveNote(note: Note, noteIndex: Int){
-        notes[noteIndex] = note
+        if(noteIndex < 0){
+            notes.add(0,note) //Ajout des nouvelles notes à l'index 0 pour un affichage en debut de liste
+        }else{
+            notes[noteIndex] = note
+        }
         adapter.notifyDataSetChanged()
     }
 
