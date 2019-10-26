@@ -51,10 +51,31 @@ class NoteDetailActivity : AppCompatActivity() {
             R.id.action_save -> {
                 saveNote()
                 true
+            }R.id.action_delete -> {
+                ShowDeleteNoteDialog()
+                true
             }
             else -> super.onOptionsItemSelected(item)
 
         }
+    }
+
+    private fun ShowDeleteNoteDialog() {
+        val confirmFragment = ConfirDeleteNoteDialogFragment(note.title)
+        confirmFragment.listener = object : ConfirDeleteNoteDialogFragment.confirmDeleteDialogListener{
+            override fun onDialogPositiveClick() {
+                deleteNote()
+            }
+
+            override fun onDialogNegativeClick() {}
+
+        }
+
+        confirmFragment.show(supportFragmentManager,"confirmDeleteDialog")
+    }
+
+    private fun deleteNote() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun saveNote(){
