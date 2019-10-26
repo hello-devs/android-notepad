@@ -82,7 +82,10 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun deleteNote(noteIndex: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (noteIndex < 0) return
+        val note = notes.removeAt(noteIndex)
+
+        adapter.notifyDataSetChanged()
     }
 
     private fun saveNote(note: Note, noteIndex: Int){
