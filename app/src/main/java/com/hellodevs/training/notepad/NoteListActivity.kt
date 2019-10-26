@@ -3,7 +3,6 @@ package com.hellodevs.training.notepad
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_note_list.*
@@ -71,9 +70,19 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun processEditNoteResult(data: Intent) {
         val noteIndex = data.getIntExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, -1)
-        val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)
 
-        saveNote(note, noteIndex)
+
+        when (data.action){
+            NoteDetailActivity.ACTION_DELETE_NOTE -> deleteNote(noteIndex)
+            NoteDetailActivity.ACTION_SAVE_NOTE -> {
+                    val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)
+                    saveNote(note, noteIndex)
+                }
+        }
+    }
+
+    private fun deleteNote(noteIndex: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun saveNote(note: Note, noteIndex: Int){

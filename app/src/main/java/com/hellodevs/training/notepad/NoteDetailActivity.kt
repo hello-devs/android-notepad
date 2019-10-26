@@ -15,6 +15,8 @@ class NoteDetailActivity : AppCompatActivity() {
         const val REQUEST_EDIT_NOTE = 1
         const val EXTRA_NOTE = "note"
         const val EXTRA_NOTE_INDEX = "noteIndex"
+        const val ACTION_SAVE_NOTE = "com.hellodevs.training.notepad.actions.ACTION_SAVE_NOTE"
+        const val ACTION_DELETE_NOTE = "com.hellodevs.training.notepad.actions.ACTION_DELETE_NOTE"
     }
 
     lateinit var note: Note
@@ -75,14 +77,18 @@ class NoteDetailActivity : AppCompatActivity() {
     }
 
     private fun deleteNote() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        intent = Intent(ACTION_DELETE_NOTE)
+        intent.putExtra(EXTRA_NOTE_INDEX, noteIndex)
+        setResult(Activity.RESULT_OK,  intent)
+        finish()
+
     }
 
     private fun saveNote(){
         note.title = titleView.text.toString()
         note.text = textView.text.toString()
 
-        intent = Intent()
+        intent = Intent(ACTION_SAVE_NOTE)
         intent.putExtra(EXTRA_NOTE_INDEX, noteIndex)
         intent.putExtra(EXTRA_NOTE, note)
         setResult(Activity.RESULT_OK,  intent)
