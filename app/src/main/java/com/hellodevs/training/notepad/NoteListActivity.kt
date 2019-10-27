@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hellodevs.training.notepad.utils.deleteNote
+import com.hellodevs.training.notepad.utils.loadNotes
+import com.hellodevs.training.notepad.utils.persistNote
 import kotlinx.android.synthetic.main.activity_note_list.*
 
 class NoteListActivity : AppCompatActivity(), View.OnClickListener {
@@ -21,7 +24,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         create_note_fab.setOnClickListener (this)
 
-        notes = mutableListOf<Note>()
+        notes = loadNotes(this)
 
 /*
         notes.add(Note("note 1", "ceci est la note numéro 1"))
@@ -84,13 +87,18 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun deleteNote(noteIndex: Int) {
-        if (noteIndex < 0) return
+        if (noteIndex < 0) {
+            return
+        }
+
         val note = notes.removeAt(noteIndex)
+        deleteNote(this,note)
 
         adapter.notifyDataSetChanged()
     }
 
     private fun saveNote(note: Note, noteIndex: Int){
+        persistNote(this,note)
         if(noteIndex < 0){
             notes.add(0,note) //Ajout des nouvelles notes à l'index 0 pour un affichage en debut de liste
         }else{
