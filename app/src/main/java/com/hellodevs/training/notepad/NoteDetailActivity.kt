@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -53,7 +54,8 @@ class NoteDetailActivity : AppCompatActivity() {
             R.id.action_save -> {
                 saveNote()
                 true
-            }R.id.action_delete -> {
+            }
+            R.id.action_delete -> {
                 ShowDeleteNoteDialog()
                 true
             }
@@ -90,7 +92,7 @@ class NoteDetailActivity : AppCompatActivity() {
 
         intent = Intent(ACTION_SAVE_NOTE)
         intent.putExtra(EXTRA_NOTE_INDEX, noteIndex)
-        intent.putExtra(EXTRA_NOTE, note)
+        intent.putExtra(EXTRA_NOTE, note as Parcelable)
         setResult(Activity.RESULT_OK,  intent)
         finish()
     }

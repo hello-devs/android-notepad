@@ -3,6 +3,7 @@ package com.hellodevs.training.notepad
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_note_list.*
@@ -22,11 +23,12 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         notes = mutableListOf<Note>()
 
+/*
         notes.add(Note("note 1", "ceci est la note numéro 1"))
         notes.add(Note("note 2", "ceci est la note numéro 2"))
         notes.add(Note("note 3", "ceci est la note numéro 3"))
         notes.add(Note("note 4", "ceci est la note numéro 4"))
-
+*/
         adapter = NoteAdapter(notes, this)
 
         notes_recycler_view.layoutManager = LinearLayoutManager(this)
@@ -45,7 +47,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode != RESULT_OK || data == null){
-            return
+            return super.onActivityResult(requestCode, resultCode, data)
         }
 
         when (requestCode){
@@ -63,7 +65,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
         val intent = Intent(this, NoteDetailActivity::class.java)
         intent.putExtra(NoteDetailActivity.EXTRA_NOTE_INDEX, noteIndex)
-        intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note)
+        intent.putExtra(NoteDetailActivity.EXTRA_NOTE, note as Parcelable)
 
         startActivityForResult(intent, NoteDetailActivity.REQUEST_EDIT_NOTE)
     }
@@ -75,7 +77,7 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         when (data.action){
             NoteDetailActivity.ACTION_DELETE_NOTE -> deleteNote(noteIndex)
             NoteDetailActivity.ACTION_SAVE_NOTE -> {
-                    val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)
+                    val note = data.getParcelableExtra<Note>(NoteDetailActivity.EXTRA_NOTE)!!
                     saveNote(note, noteIndex)
                 }
         }
